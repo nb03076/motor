@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'PWM'.
  *
- * Model version                  : 1.1
+ * Model version                  : 1.4
  * Simulink Coder version         : 9.7 (R2022a) 13-Nov-2021
- * C/C++ source code generated on : Thu Sep 22 17:05:52 2022
+ * C/C++ source code generated on : Sun Sep 25 15:24:21 2022
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM Cortex
@@ -21,23 +21,6 @@
 
 /* Block parameters (default storage) */
 P_PWM_T PWM_P = {
-  /* Mask Parameter: Ramp_InitialOutput
-   * Referenced by: '<S2>/Constant1'
-   */
-  0.0,
-
-  /* Mask Parameter: Ramp_slope
-   * Referenced by: '<S2>/Step'
-   */
-  1.0,
-
-  /* Mask Parameter: Ramp_start
-   * Referenced by:
-   *   '<S2>/Constant'
-   *   '<S2>/Step'
-   */
-  6.0,
-
   /* Expression: -1
    * Referenced by: '<S4>/Digital Input'
    */
@@ -58,10 +41,30 @@ P_PWM_T PWM_P = {
    */
   0.0,
 
+  /* Expression: 1
+   * Referenced by: '<Root>/Pulse Generator'
+   */
+  1.0,
+
+  /* Computed Parameter: PulseGenerator_Period
+   * Referenced by: '<Root>/Pulse Generator'
+   */
+  400.0,
+
+  /* Computed Parameter: PulseGenerator_Duty
+   * Referenced by: '<Root>/Pulse Generator'
+   */
+  200.0,
+
   /* Expression: 0
-   * Referenced by: '<S2>/Step'
+   * Referenced by: '<Root>/Pulse Generator'
    */
   0.0,
+
+  /* Expression: 12
+   * Referenced by: '<Root>/Gain'
+   */
+  12.0,
 
   /* Expression: 12
    * Referenced by: '<Root>/Saturation'
@@ -112,6 +115,11 @@ P_PWM_T PWM_P = {
    * Referenced by: '<S3>/Gain3'
    */
   0.3515625,
+
+  /* Computed Parameter: Gain1_Gain_b
+   * Referenced by: '<Root>/Gain1'
+   */
+  -96,
 
   /* Computed Parameter: Gain_Gain_d
    * Referenced by: '<S4>/Gain'

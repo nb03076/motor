@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'PWM'.
  *
- * Model version                  : 1.1
+ * Model version                  : 1.4
  * Simulink Coder version         : 9.7 (R2022a) 13-Nov-2021
- * C/C++ source code generated on : Thu Sep 22 17:05:52 2022
+ * C/C++ source code generated on : Sun Sep 25 15:24:21 2022
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM Cortex
@@ -80,6 +80,7 @@
 
 /* Block signals (default storage) */
 typedef struct {
+  real_T Add;                          /* '<Root>/Add' */
   real_T Saturation;                   /* '<Root>/Saturation' */
   real_T Gain3;                        /* '<S3>/Gain3' */
   real_T Derivative;                   /* '<S3>/Derivative' */
@@ -98,6 +99,10 @@ typedef struct {
   real_T LastUAtTimeB;                 /* '<S3>/Derivative' */
   struct {
     void *LoggedData;
+  } Scope3_PWORK;                      /* '<Root>/Scope3' */
+
+  struct {
+    void *LoggedData;
   } Scope2_PWORK;                      /* '<Root>/Scope2' */
 
   struct {
@@ -108,22 +113,12 @@ typedef struct {
     void *LoggedData;
   } Scope1_PWORK;                      /* '<Root>/Scope1' */
 
+  int32_T clockTickCounter;            /* '<Root>/Pulse Generator' */
   int8_T TriggeredSubsystem_SubsysRanBC;/* '<S3>/Triggered Subsystem' */
 } DW_PWM_T;
 
 /* Parameters (default storage) */
 struct P_PWM_T_ {
-  real_T Ramp_InitialOutput;           /* Mask Parameter: Ramp_InitialOutput
-                                        * Referenced by: '<S2>/Constant1'
-                                        */
-  real_T Ramp_slope;                   /* Mask Parameter: Ramp_slope
-                                        * Referenced by: '<S2>/Step'
-                                        */
-  real_T Ramp_start;                   /* Mask Parameter: Ramp_start
-                                        * Referenced by:
-                                        *   '<S2>/Constant'
-                                        *   '<S2>/Step'
-                                        */
   real_T DigitalInput_SampleTime;      /* Expression: -1
                                         * Referenced by: '<S4>/Digital Input'
                                         */
@@ -136,8 +131,20 @@ struct P_PWM_T_ {
   real_T Delay_InitialCondition;       /* Expression: 0.0
                                         * Referenced by: '<S4>/Delay'
                                         */
-  real_T Step_Y0;                      /* Expression: 0
-                                        * Referenced by: '<S2>/Step'
+  real_T PulseGenerator_Amp;           /* Expression: 1
+                                        * Referenced by: '<Root>/Pulse Generator'
+                                        */
+  real_T PulseGenerator_Period;     /* Computed Parameter: PulseGenerator_Period
+                                     * Referenced by: '<Root>/Pulse Generator'
+                                     */
+  real_T PulseGenerator_Duty;         /* Computed Parameter: PulseGenerator_Duty
+                                       * Referenced by: '<Root>/Pulse Generator'
+                                       */
+  real_T PulseGenerator_PhaseDelay;    /* Expression: 0
+                                        * Referenced by: '<Root>/Pulse Generator'
+                                        */
+  real_T Gain_Gain;                    /* Expression: 12
+                                        * Referenced by: '<Root>/Gain'
                                         */
   real_T Saturation_UpperSat;          /* Expression: 12
                                         * Referenced by: '<Root>/Saturation'
@@ -145,7 +152,7 @@ struct P_PWM_T_ {
   real_T Saturation_LowerSat;          /* Expression: -12
                                         * Referenced by: '<Root>/Saturation'
                                         */
-  real_T Gain_Gain;                    /* Expression: -1
+  real_T Gain_Gain_n;                  /* Expression: -1
                                         * Referenced by: '<S1>/Gain'
                                         */
   real_T Bias_Bias;                    /* Expression: 1
@@ -160,7 +167,7 @@ struct P_PWM_T_ {
   real_T Step_Time;                    /* Expression: 5
                                         * Referenced by: '<S1>/Step'
                                         */
-  real_T Step_Y0_p;                    /* Expression: 1
+  real_T Step_Y0;                      /* Expression: 1
                                         * Referenced by: '<S1>/Step'
                                         */
   real_T Step_YFinal;                  /* Expression: 0
@@ -168,6 +175,9 @@ struct P_PWM_T_ {
                                         */
   real_T Gain3_Gain;                   /* Expression: 360/1024
                                         * Referenced by: '<S3>/Gain3'
+                                        */
+  int8_T Gain1_Gain_b;                 /* Computed Parameter: Gain1_Gain_b
+                                        * Referenced by: '<Root>/Gain1'
                                         */
   uint8_T Gain_Gain_d;                 /* Computed Parameter: Gain_Gain_d
                                         * Referenced by: '<S4>/Gain'
@@ -239,6 +249,14 @@ extern volatile boolean_T runModel;
 /*-
  * These blocks were eliminated from the model due to optimizations:
  *
+ * Block '<Root>/Constant' : Unused code path elimination
+ * Block '<S2>/Clock' : Unused code path elimination
+ * Block '<S2>/Constant' : Unused code path elimination
+ * Block '<S2>/Constant1' : Unused code path elimination
+ * Block '<S2>/Output' : Unused code path elimination
+ * Block '<S2>/Product' : Unused code path elimination
+ * Block '<S2>/Step' : Unused code path elimination
+ * Block '<S2>/Sum' : Unused code path elimination
  * Block '<Root>/Step' : Unused code path elimination
  */
 
