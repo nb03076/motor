@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'PWM'.
  *
- * Model version                  : 1.6
+ * Model version                  : 1.7
  * Simulink Coder version         : 9.7 (R2022a) 13-Nov-2021
- * C/C++ source code generated on : Thu Sep 29 16:55:49 2022
+ * C/C++ source code generated on : Fri Sep 30 17:20:51 2022
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM Cortex
@@ -41,10 +41,10 @@ P_PWM_T PWM_P = {
    */
   0.0,
 
-  /* Expression: 6
+  /* Expression: 24
    * Referenced by: '<Root>/Pulse Generator'
    */
-  6.0,
+  24.0,
 
   /* Computed Parameter: PulseGenerator_Period
    * Referenced by: '<Root>/Pulse Generator'
@@ -60,6 +60,11 @@ P_PWM_T PWM_P = {
    * Referenced by: '<Root>/Pulse Generator'
    */
   0.0,
+
+  /* Expression: -12
+   * Referenced by: '<Root>/Bias'
+   */
+  -12.0,
 
   /* Expression: 12
    * Referenced by: '<Root>/Saturation'

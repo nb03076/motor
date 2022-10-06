@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'PWM'.
  *
- * Model version                  : 1.6
+ * Model version                  : 1.7
  * Simulink Coder version         : 9.7 (R2022a) 13-Nov-2021
- * C/C++ source code generated on : Thu Sep 29 16:55:49 2022
+ * C/C++ source code generated on : Fri Sep 30 17:20:51 2022
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM Cortex
@@ -250,7 +250,7 @@ struct P_PWM_T_ {
   real_T Delay_InitialCondition;       /* Expression: 0.0
                                         * Referenced by: '<S3>/Delay'
                                         */
-  real_T PulseGenerator_Amp;           /* Expression: 6
+  real_T PulseGenerator_Amp;           /* Expression: 24
                                         * Referenced by: '<Root>/Pulse Generator'
                                         */
   real_T PulseGenerator_Period;     /* Computed Parameter: PulseGenerator_Period
@@ -262,6 +262,9 @@ struct P_PWM_T_ {
   real_T PulseGenerator_PhaseDelay;    /* Expression: 0
                                         * Referenced by: '<Root>/Pulse Generator'
                                         */
+  real_T Bias_Bias;                    /* Expression: -12
+                                        * Referenced by: '<Root>/Bias'
+                                        */
   real_T Saturation_UpperSat;          /* Expression: 12
                                         * Referenced by: '<Root>/Saturation'
                                         */
@@ -271,7 +274,7 @@ struct P_PWM_T_ {
   real_T Gain_Gain;                    /* Expression: -1
                                         * Referenced by: '<S1>/Gain'
                                         */
-  real_T Bias_Bias;                    /* Expression: 1
+  real_T Bias_Bias_f;                  /* Expression: 1
                                         * Referenced by: '<S1>/Bias'
                                         */
   real_T Gain2_Gain;                   /* Expression: 1/2
@@ -381,12 +384,6 @@ extern void PWM_terminate(void);
 extern RT_MODEL_PWM_T *const PWM_M;
 extern volatile boolean_T stopRequested;
 extern volatile boolean_T runModel;
-
-/*-
- * These blocks were eliminated from the model due to optimizations:
- *
- * Block '<Root>/Bias' : Unused code path elimination
- */
 
 /*-
  * The generated code includes comments that allow you to trace directly

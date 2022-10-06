@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'PWM'.
  *
- * Model version                  : 1.6
+ * Model version                  : 1.7
  * Simulink Coder version         : 9.7 (R2022a) 13-Nov-2021
- * C/C++ source code generated on : Thu Sep 29 16:55:49 2022
+ * C/C++ source code generated on : Fri Sep 30 17:20:51 2022
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM Cortex

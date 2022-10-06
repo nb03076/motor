@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'PWM'.
  *
- * Model version                  : 1.6
+ * Model version                  : 1.7
  * Simulink Coder version         : 9.7 (R2022a) 13-Nov-2021
- * C/C++ source code generated on : Thu Sep 29 16:55:49 2022
+ * C/C++ source code generated on : Fri Sep 30 17:20:51 2022
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM Cortex
@@ -191,31 +191,32 @@ void PWM_step(void)
   {
     codertarget_arduinobase_inter_T *obj;
     real_T lastTime;
-    real_T u0;
+    real_T rtb_Gain1;
     real_T *lastU;
     uint8_T tmp;
     if (rtmIsMajorTimeStep(PWM_M)) {
-      /* Gain: '<S1>/Gain1' incorporates:
-       *  DiscretePulseGenerator: '<Root>/Pulse Generator'
-       */
-      PWM_B.Saturation = (PWM_DW.clockTickCounter < PWM_P.PulseGenerator_Duty) &&
-        (PWM_DW.clockTickCounter >= 0) ? PWM_P.PulseGenerator_Amp : 0.0;
-
       /* DiscretePulseGenerator: '<Root>/Pulse Generator' */
+      rtb_Gain1 = (PWM_DW.clockTickCounter < PWM_P.PulseGenerator_Duty) &&
+        (PWM_DW.clockTickCounter >= 0) ? PWM_P.PulseGenerator_Amp : 0.0;
       if (PWM_DW.clockTickCounter >= PWM_P.PulseGenerator_Period - 1.0) {
         PWM_DW.clockTickCounter = 0;
       } else {
         PWM_DW.clockTickCounter++;
       }
 
+      /* End of DiscretePulseGenerator: '<Root>/Pulse Generator' */
+
+      /* Bias: '<Root>/Bias' */
+      PWM_B.Saturation = rtb_Gain1 + PWM_P.Bias_Bias;
+
       /* Saturate: '<Root>/Saturation' */
       if (PWM_B.Saturation > PWM_P.Saturation_UpperSat) {
-        /* Gain: '<S1>/Gain1' incorporates:
+        /* Bias: '<Root>/Bias' incorporates:
          *  Saturate: '<Root>/Saturation'
          */
         PWM_B.Saturation = PWM_P.Saturation_UpperSat;
       } else if (PWM_B.Saturation < PWM_P.Saturation_LowerSat) {
-        /* Gain: '<S1>/Gain1' incorporates:
+        /* Bias: '<Root>/Bias' incorporates:
          *  Saturate: '<Root>/Saturation'
          */
         PWM_B.Saturation = PWM_P.Saturation_LowerSat;
@@ -225,11 +226,11 @@ void PWM_step(void)
 
       /* Signum: '<S1>/Sign' */
       if (rtIsNaN(PWM_B.Saturation)) {
-        u0 = PWM_B.Saturation;
+        rtb_Gain1 = PWM_B.Saturation;
       } else if (PWM_B.Saturation < 0.0) {
-        u0 = -1.0;
+        rtb_Gain1 = -1.0;
       } else {
-        u0 = (PWM_B.Saturation > 0.0);
+        rtb_Gain1 = (PWM_B.Saturation > 0.0);
       }
 
       /* End of Signum: '<S1>/Sign' */
@@ -239,11 +240,11 @@ void PWM_step(void)
        *  Gain: '<S1>/Gain'
        *  Gain: '<S1>/Gain2'
        */
-      u0 = rt_roundd_snf((PWM_P.Gain_Gain * u0 + PWM_P.Bias_Bias) *
-                         PWM_P.Gain2_Gain);
-      if (u0 < 256.0) {
-        if (u0 >= 0.0) {
-          tmp = (uint8_T)u0;
+      rtb_Gain1 = rt_roundd_snf((PWM_P.Gain_Gain * rtb_Gain1 + PWM_P.Bias_Bias_f)
+        * PWM_P.Gain2_Gain);
+      if (rtb_Gain1 < 256.0) {
+        if (rtb_Gain1 >= 0.0) {
+          tmp = (uint8_T)rtb_Gain1;
         } else {
           tmp = 0U;
         }
@@ -262,30 +263,30 @@ void PWM_step(void)
       /* Abs: '<S1>/Abs' incorporates:
        *  Gain: '<S1>/Gain1'
        */
-      u0 = fabs(PWM_P.Gain1_Gain * PWM_B.Saturation);
+      rtb_Gain1 = fabs(PWM_P.Gain1_Gain * PWM_B.Saturation);
 
       /* MATLABSystem: '<S1>/PWM' */
-      if (!(u0 <= 255.0)) {
-        u0 = 255.0;
+      if (!(rtb_Gain1 <= 255.0)) {
+        rtb_Gain1 = 255.0;
       }
 
-      MW_PWM_SetDutyCycle(PWM_DW.obj_p.PWMDriverObj.MW_PWM_HANDLE, u0);
+      MW_PWM_SetDutyCycle(PWM_DW.obj_p.PWMDriverObj.MW_PWM_HANDLE, rtb_Gain1);
     }
 
     /* Step: '<S1>/Step' */
     if (PWM_M->Timing.t[0] < PWM_P.Step_Time) {
-      u0 = PWM_P.Step_Y0;
+      rtb_Gain1 = PWM_P.Step_Y0;
     } else {
-      u0 = PWM_P.Step_YFinal;
+      rtb_Gain1 = PWM_P.Step_YFinal;
     }
 
     /* End of Step: '<S1>/Step' */
 
     /* MATLABSystem: '<S1>/Digital Output' */
-    u0 = rt_roundd_snf(u0);
-    if (u0 < 256.0) {
-      if (u0 >= 0.0) {
-        tmp = (uint8_T)u0;
+    rtb_Gain1 = rt_roundd_snf(rtb_Gain1);
+    if (rtb_Gain1 < 256.0) {
+      if (rtb_Gain1 >= 0.0) {
+        tmp = (uint8_T)rtb_Gain1;
       } else {
         tmp = 0U;
       }
@@ -302,25 +303,25 @@ void PWM_step(void)
     }
 
     /* Derivative: '<S2>/Derivative' */
-    u0 = PWM_M->Timing.t[0];
-    if ((PWM_DW.TimeStampA >= u0) && (PWM_DW.TimeStampB >= u0)) {
+    rtb_Gain1 = PWM_M->Timing.t[0];
+    if ((PWM_DW.TimeStampA >= rtb_Gain1) && (PWM_DW.TimeStampB >= rtb_Gain1)) {
       /* Derivative: '<S2>/Derivative' */
       PWM_B.Derivative = 0.0;
     } else {
       lastTime = PWM_DW.TimeStampA;
       lastU = &PWM_DW.LastUAtTimeA;
       if (PWM_DW.TimeStampA < PWM_DW.TimeStampB) {
-        if (PWM_DW.TimeStampB < u0) {
+        if (PWM_DW.TimeStampB < rtb_Gain1) {
           lastTime = PWM_DW.TimeStampB;
           lastU = &PWM_DW.LastUAtTimeB;
         }
-      } else if (PWM_DW.TimeStampA >= u0) {
+      } else if (PWM_DW.TimeStampA >= rtb_Gain1) {
         lastTime = PWM_DW.TimeStampB;
         lastU = &PWM_DW.LastUAtTimeB;
       }
 
       /* Derivative: '<S2>/Derivative' */
-      PWM_B.Derivative = (PWM_B.Gain3 - *lastU) / (u0 - lastTime);
+      PWM_B.Derivative = (PWM_B.Gain3 - *lastU) / (rtb_Gain1 - lastTime);
     }
 
     /* End of Derivative: '<S2>/Derivative' */
@@ -456,10 +457,10 @@ void PWM_initialize(void)
   PWM_M->Timing.stepSize0 = 0.005;
 
   /* External mode info */
-  PWM_M->Sizes.checksums[0] = (3411213171U);
-  PWM_M->Sizes.checksums[1] = (2017013373U);
-  PWM_M->Sizes.checksums[2] = (4208779215U);
-  PWM_M->Sizes.checksums[3] = (4059242219U);
+  PWM_M->Sizes.checksums[0] = (3074696099U);
+  PWM_M->Sizes.checksums[1] = (3230185716U);
+  PWM_M->Sizes.checksums[2] = (3452806129U);
+  PWM_M->Sizes.checksums[3] = (810846939U);
 
   {
     static const sysRanDType rtAlwaysEnabled = SUBSYS_RAN_BC_ENABLE;
