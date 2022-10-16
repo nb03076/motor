@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'PWM_sinewave'.
  *
- * Model version                  : 1.9
+ * Model version                  : 1.11
  * Simulink Coder version         : 9.7 (R2022a) 13-Nov-2021
- * C/C++ source code generated on : Thu Oct 13 15:58:59 2022
+ * C/C++ source code generated on : Sun Oct 16 13:14:02 2022
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM Cortex
@@ -246,7 +246,7 @@ void PWM_sinewave_step(void)
     /* Gain: '<Root>/Gain' incorporates:
      *  Sum: '<Root>/Sum'
      */
-    PWM_sinewave_B.Saturation = (PWM_sinewave_B.DataTypeConversion1 +
+    PWM_sinewave_B.Saturation = (PWM_sinewave_B.DataTypeConversion1 -
       PWM_sinewave_B.Derivative) * PWM_sinewave_P.Gain_Gain;
 
     /* Saturate: '<Root>/Saturation' */
@@ -277,11 +277,10 @@ void PWM_sinewave_step(void)
 
     /* MATLABSystem: '<S1>/Digital Output1' incorporates:
      *  Bias: '<S1>/Bias'
-     *  Gain: '<S1>/Gain'
      *  Gain: '<S1>/Gain2'
      */
-    rtb_MathFunction = rt_roundd_snf((PWM_sinewave_P.Gain_Gain_n *
-      rtb_MathFunction + PWM_sinewave_P.Bias_Bias) * PWM_sinewave_P.Gain2_Gain);
+    rtb_MathFunction = rt_roundd_snf((rtb_MathFunction +
+      PWM_sinewave_P.Bias_Bias) * PWM_sinewave_P.Gain2_Gain);
     if (rtb_MathFunction < 256.0) {
       if (rtb_MathFunction >= 0.0) {
         tmp = (uint8_T)rtb_MathFunction;
@@ -313,10 +312,6 @@ void PWM_sinewave_step(void)
 
     MW_PWM_SetDutyCycle(PWM_sinewave_DW.obj_p.PWMDriverObj.MW_PWM_HANDLE,
                         rtb_MathFunction);
-
-    /* Gain: '<Root>/Gain1' */
-    PWM_sinewave_B.Gain1 = PWM_sinewave_P.Gain1_Gain_k *
-      PWM_sinewave_B.Derivative;
 
     /* Step: '<S1>/Step' */
     if (PWM_sinewave_M->Timing.t[0] < PWM_sinewave_P.Step_Time) {
@@ -441,10 +436,10 @@ void PWM_sinewave_initialize(void)
   PWM_sinewave_M->Timing.stepSize0 = 0.001;
 
   /* External mode info */
-  PWM_sinewave_M->Sizes.checksums[0] = (2568823710U);
-  PWM_sinewave_M->Sizes.checksums[1] = (3127439423U);
-  PWM_sinewave_M->Sizes.checksums[2] = (2357155660U);
-  PWM_sinewave_M->Sizes.checksums[3] = (1473756300U);
+  PWM_sinewave_M->Sizes.checksums[0] = (3286262612U);
+  PWM_sinewave_M->Sizes.checksums[1] = (1813234791U);
+  PWM_sinewave_M->Sizes.checksums[2] = (1310233378U);
+  PWM_sinewave_M->Sizes.checksums[3] = (1952376073U);
 
   {
     static const sysRanDType rtAlwaysEnabled = SUBSYS_RAN_BC_ENABLE;

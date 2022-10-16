@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'PWM_sinewave'.
  *
- * Model version                  : 1.9
+ * Model version                  : 1.11
  * Simulink Coder version         : 9.7 (R2022a) 13-Nov-2021
- * C/C++ source code generated on : Thu Oct 13 15:58:59 2022
+ * C/C++ source code generated on : Sun Oct 16 13:14:02 2022
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM Cortex
@@ -102,11 +102,6 @@ P_PWM_sinewave_T PWM_sinewave_P = {
    */
   -12.0,
 
-  /* Expression: -1
-   * Referenced by: '<S1>/Gain'
-   */
-  -1.0,
-
   /* Expression: 1
    * Referenced by: '<S1>/Bias'
    */
@@ -121,11 +116,6 @@ P_PWM_sinewave_T PWM_sinewave_P = {
    * Referenced by: '<S1>/Gain1'
    */
   21.25,
-
-  /* Expression: -1
-   * Referenced by: '<Root>/Gain1'
-   */
-  -1.0,
 
   /* Expression: 2
    * Referenced by: '<S1>/Step'

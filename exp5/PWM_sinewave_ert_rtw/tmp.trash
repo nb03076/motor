@@ -2,13 +2,13 @@ Atmel SMART device 0x285e0a60 found
 Erase flash
 done in 0.028 seconds
 
-Write 43372 bytes to flash (170 pages)
+Write 43340 bytes to flash (170 pages)
 [                              ] 0% (0/170 pages)[===                           ] 10% (17/170 pages)[======                        ] 20% (34/170 pages)[=========                     ] 30% (51/170 pages)[============                  ] 40% (68/170 pages)[===============               ] 50% (85/170 pages)[==================            ] 60% (102/170 pages)[=====================         ] 70% (119/170 pages)[========================      ] 80% (136/170 pages)[===========================   ] 90% (153/170 pages)[==============================] 100% (170/170 pages)
-done in 8.340 seconds
+done in 8.347 seconds
 
-Verify 43372 bytes of flash
+Verify 43340 bytes of flash
 [                              ] 0% (0/170 pages)[===                           ] 10% (17/170 pages)[======                        ] 20% (34/170 pages)[=========                     ] 30% (51/170 pages)[============                  ] 40% (68/170 pages)[===============               ] 50% (85/170 pages)[==================            ] 60% (102/170 pages)[=====================         ] 70% (119/170 pages)[========================      ] 80% (136/170 pages)[===========================   ] 90% (153/170 pages)[==============================] 100% (170/170 pages)
 Verify successful
-done in 7.713 seconds
+done in 7.731 seconds
 Set boot flash true
 CPU reset.

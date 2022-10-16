@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'PWM_sinewave'.
  *
- * Model version                  : 1.9
+ * Model version                  : 1.11
  * Simulink Coder version         : 9.7 (R2022a) 13-Nov-2021
- * C/C++ source code generated on : Thu Oct 13 15:58:59 2022
+ * C/C++ source code generated on : Sun Oct 16 13:14:02 2022
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM Cortex
@@ -84,7 +84,6 @@ typedef struct {
   real_T Gain3;                        /* '<S3>/Gain3' */
   real_T Derivative;                   /* '<S3>/Derivative' */
   real_T Saturation;                   /* '<Root>/Saturation' */
-  real_T Gain1;                        /* '<Root>/Gain1' */
 } B_PWM_sinewave_T;
 
 /* Block states (default storage) for system '<Root>' */
@@ -170,9 +169,6 @@ struct P_PWM_sinewave_T_ {
   real_T Saturation_LowerSat;          /* Expression: -12
                                         * Referenced by: '<Root>/Saturation'
                                         */
-  real_T Gain_Gain_n;                  /* Expression: -1
-                                        * Referenced by: '<S1>/Gain'
-                                        */
   real_T Bias_Bias;                    /* Expression: 1
                                         * Referenced by: '<S1>/Bias'
                                         */
@@ -181,9 +177,6 @@ struct P_PWM_sinewave_T_ {
                                         */
   real_T Gain1_Gain;                   /* Expression: 255/12
                                         * Referenced by: '<S1>/Gain1'
-                                        */
-  real_T Gain1_Gain_k;                 /* Expression: -1
-                                        * Referenced by: '<Root>/Gain1'
                                         */
   real_T Step_Time;                    /* Expression: 2
                                         * Referenced by: '<S1>/Step'
@@ -275,6 +268,12 @@ extern void PWM_sinewave_terminate(void);
 extern RT_MODEL_PWM_sinewave_T *const PWM_sinewave_M;
 extern volatile boolean_T stopRequested;
 extern volatile boolean_T runModel;
+
+/*-
+ * These blocks were eliminated from the model due to optimizations:
+ *
+ * Block '<Root>/Gain1' : Unused code path elimination
+ */
 
 /*-
  * The generated code includes comments that allow you to trace directly

@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'PWM_sinewave'.
  *
- * Model version                  : 1.9
+ * Model version                  : 1.11
  * Simulink Coder version         : 9.7 (R2022a) 13-Nov-2021
- * C/C++ source code generated on : Thu Oct 13 15:58:59 2022
+ * C/C++ source code generated on : Sun Oct 16 13:14:02 2022
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM Cortex
