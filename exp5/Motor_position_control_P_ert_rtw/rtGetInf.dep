@@ -1,0 +1,11 @@
+rtGetInf.o: \
+ C:/Users/user/Desktop/제어공~1/exp5/Motor_position_control_P_ert_rtw/rtGetInf.c \
+ C:/Users/user/Desktop/제어공~1/exp5/Motor_position_control_P_ert_rtw/rtwtypes.h \
+ C:/Users/user/Desktop/제어공~1/exp5/Motor_position_control_P_ert_rtw/rtGetInf.h \
+ C:/Users/user/Desktop/제어공~1/exp5/Motor_position_control_P_ert_rtw/rt_nonfinite.h
+
+C:/Users/user/Desktop/제어공~1/exp5/Motor_position_control_P_ert_rtw/rtwtypes.h:
+
+C:/Users/user/Desktop/제어공~1/exp5/Motor_position_control_P_ert_rtw/rtGetInf.h:
+
+C:/Users/user/Desktop/제어공~1/exp5/Motor_position_control_P_ert_rtw/rt_nonfinite.h:

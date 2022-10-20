@@ -9,7 +9,7 @@
  *
  * Model version                  : 1.13
  * Simulink Coder version         : 9.7 (R2022a) 13-Nov-2021
- * C/C++ source code generated on : Sun Oct 16 16:48:40 2022
+ * C/C++ source code generated on : Wed Oct 19 01:08:31 2022
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM Cortex
@@ -236,7 +236,7 @@ void PWM_sinewave_PI_step(void)
     real_T rtb_MathFunction;
     real_T *lastU;
     int32_T i;
-    int8_T rtb_DataTypeConversion[7];
+    int8_T rtb_DataTypeConversion[10];
     int8_T rtb_Switch;
     int8_T s6_iter;
     uint8_T tmp;
@@ -267,7 +267,7 @@ void PWM_sinewave_PI_step(void)
        *  Constant: '<S5>/Time'
        *  RelationalOperator: '<S5>/Relational Operator'
        */
-      for (i = 0; i < 7; i++) {
+      for (i = 0; i < 10; i++) {
         rtb_DataTypeConversion[i] = (int8_T)(rtb_MathFunction >=
           PWM_sinewave_PI_P.StairGenerator_TimeInput[i]);
       }
@@ -301,7 +301,7 @@ void PWM_sinewave_PI_step(void)
         }
 
         s6_iter++;
-      } while ((!rtb_FixPtRelationalOperator) && (s6_iter <= 7));
+      } while ((!rtb_FixPtRelationalOperator) && (s6_iter <= 10));
 
       /* End of Outputs for SubSystem: '<S5>/While Iterator Subsystem' */
 
@@ -315,78 +315,6 @@ void PWM_sinewave_PI_step(void)
       /* Gain: '<S4>/Gain3' */
       PWM_sinewave_PI_B.Gain3 = PWM_sinewave_PI_P.Gain3_Gain *
         PWM_sinewave_PI_DW.Delay_DSTATE;
-
-      /* Gain: '<Root>/Gain2' incorporates:
-       *  Sum: '<Root>/Add'
-       */
-      PWM_sinewave_PI_B.Saturation = (PWM_sinewave_PI_B.DataTypeConversion1 -
-        PWM_sinewave_PI_B.Gain3) * PWM_sinewave_PI_P.Gain2_Gain;
-
-      /* Saturate: '<Root>/Saturation' */
-      if (PWM_sinewave_PI_B.Saturation > PWM_sinewave_PI_P.Saturation_UpperSat)
-      {
-        /* Gain: '<Root>/Gain2' incorporates:
-         *  Saturate: '<Root>/Saturation'
-         */
-        PWM_sinewave_PI_B.Saturation = PWM_sinewave_PI_P.Saturation_UpperSat;
-      } else if (PWM_sinewave_PI_B.Saturation <
-                 PWM_sinewave_PI_P.Saturation_LowerSat) {
-        /* Gain: '<Root>/Gain2' incorporates:
-         *  Saturate: '<Root>/Saturation'
-         */
-        PWM_sinewave_PI_B.Saturation = PWM_sinewave_PI_P.Saturation_LowerSat;
-      }
-
-      /* End of Saturate: '<Root>/Saturation' */
-
-      /* Signum: '<S1>/Sign' */
-      if (rtIsNaN(PWM_sinewave_PI_B.Saturation)) {
-        rtb_MathFunction = PWM_sinewave_PI_B.Saturation;
-      } else if (PWM_sinewave_PI_B.Saturation < 0.0) {
-        rtb_MathFunction = -1.0;
-      } else {
-        rtb_MathFunction = (PWM_sinewave_PI_B.Saturation > 0.0);
-      }
-
-      /* End of Signum: '<S1>/Sign' */
-
-      /* MATLABSystem: '<S1>/Digital Output1' incorporates:
-       *  Bias: '<S1>/Bias'
-       *  Gain: '<S1>/Gain2'
-       */
-      rtb_MathFunction = rt_roundd_snf((rtb_MathFunction +
-        PWM_sinewave_PI_P.Bias_Bias) * PWM_sinewave_PI_P.Gain2_Gain_e);
-      if (rtb_MathFunction < 256.0) {
-        if (rtb_MathFunction >= 0.0) {
-          tmp = (uint8_T)rtb_MathFunction;
-        } else {
-          tmp = 0U;
-        }
-      } else {
-        tmp = MAX_uint8_T;
-      }
-
-      writeDigitalPin(49, tmp);
-
-      /* End of MATLABSystem: '<S1>/Digital Output1' */
-
-      /* MATLABSystem: '<S1>/PWM' */
-      obj = &PWM_sinewave_PI_DW.obj_d;
-      obj->PWMDriverObj.MW_PWM_HANDLE = MW_PWM_GetHandle(2U);
-
-      /* Abs: '<S1>/Abs' incorporates:
-       *  Gain: '<S1>/Gain1'
-       */
-      rtb_MathFunction = fabs(PWM_sinewave_PI_P.Gain1_Gain *
-        PWM_sinewave_PI_B.Saturation);
-
-      /* MATLABSystem: '<S1>/PWM' */
-      if (!(rtb_MathFunction <= 255.0)) {
-        rtb_MathFunction = 255.0;
-      }
-
-      MW_PWM_SetDutyCycle(PWM_sinewave_PI_DW.obj_d.PWMDriverObj.MW_PWM_HANDLE,
-                          rtb_MathFunction);
     }
 
     /* Derivative: '<S4>/Derivative' */
@@ -414,6 +342,94 @@ void PWM_sinewave_PI_step(void)
     }
 
     /* End of Derivative: '<S4>/Derivative' */
+    if (rtmIsMajorTimeStep(PWM_sinewave_PI_M)) {
+      /* Memory: '<S3>/Memory' */
+      PWM_sinewave_PI_B.Memory = PWM_sinewave_PI_DW.Memory_PreviousInput;
+    }
+
+    /* Sum: '<Root>/Add' incorporates:
+     *  TransferFcn: '<Root>/Transfer Fcn1'
+     */
+    rtb_MathFunction = PWM_sinewave_PI_P.TransferFcn1_C *
+      PWM_sinewave_PI_X.TransferFcn1_CSTATE - PWM_sinewave_PI_B.Derivative;
+
+    /* Sum: '<S3>/Add' incorporates:
+     *  Gain: '<S3>/Gain3'
+     *  Gain: '<S3>/Gain4'
+     */
+    PWM_sinewave_PI_B.Add = PWM_sinewave_PI_P.Gain3_Gain_j * rtb_MathFunction *
+      PWM_sinewave_PI_P.Gain4_Gain + PWM_sinewave_PI_B.Memory;
+
+    /* Sum: '<S3>/Sum1' incorporates:
+     *  Gain: '<S3>/Gain2'
+     */
+    PWM_sinewave_PI_B.Saturation = PWM_sinewave_PI_P.Gain2_Gain *
+      rtb_MathFunction + PWM_sinewave_PI_B.Add;
+
+    /* Saturate: '<Root>/Saturation' */
+    if (PWM_sinewave_PI_B.Saturation > PWM_sinewave_PI_P.Saturation_UpperSat) {
+      /* Sum: '<S3>/Sum1' incorporates:
+       *  Saturate: '<Root>/Saturation'
+       */
+      PWM_sinewave_PI_B.Saturation = PWM_sinewave_PI_P.Saturation_UpperSat;
+    } else if (PWM_sinewave_PI_B.Saturation <
+               PWM_sinewave_PI_P.Saturation_LowerSat) {
+      /* Sum: '<S3>/Sum1' incorporates:
+       *  Saturate: '<Root>/Saturation'
+       */
+      PWM_sinewave_PI_B.Saturation = PWM_sinewave_PI_P.Saturation_LowerSat;
+    }
+
+    /* End of Saturate: '<Root>/Saturation' */
+
+    /* Signum: '<S1>/Sign' */
+    if (rtIsNaN(PWM_sinewave_PI_B.Saturation)) {
+      rtb_MathFunction = PWM_sinewave_PI_B.Saturation;
+    } else if (PWM_sinewave_PI_B.Saturation < 0.0) {
+      rtb_MathFunction = -1.0;
+    } else {
+      rtb_MathFunction = (PWM_sinewave_PI_B.Saturation > 0.0);
+    }
+
+    /* End of Signum: '<S1>/Sign' */
+
+    /* MATLABSystem: '<S1>/Digital Output1' incorporates:
+     *  Bias: '<S1>/Bias'
+     *  Gain: '<S1>/Gain2'
+     */
+    rtb_MathFunction = rt_roundd_snf((rtb_MathFunction +
+      PWM_sinewave_PI_P.Bias_Bias) * PWM_sinewave_PI_P.Gain2_Gain_e);
+    if (rtb_MathFunction < 256.0) {
+      if (rtb_MathFunction >= 0.0) {
+        tmp = (uint8_T)rtb_MathFunction;
+      } else {
+        tmp = 0U;
+      }
+    } else {
+      tmp = MAX_uint8_T;
+    }
+
+    writeDigitalPin(49, tmp);
+
+    /* End of MATLABSystem: '<S1>/Digital Output1' */
+
+    /* MATLABSystem: '<S1>/PWM' */
+    obj = &PWM_sinewave_PI_DW.obj_d;
+    obj->PWMDriverObj.MW_PWM_HANDLE = MW_PWM_GetHandle(2U);
+
+    /* Abs: '<S1>/Abs' incorporates:
+     *  Gain: '<S1>/Gain1'
+     */
+    rtb_MathFunction = fabs(PWM_sinewave_PI_P.Gain1_Gain *
+      PWM_sinewave_PI_B.Saturation);
+
+    /* MATLABSystem: '<S1>/PWM' */
+    if (!(rtb_MathFunction <= 255.0)) {
+      rtb_MathFunction = 255.0;
+    }
+
+    MW_PWM_SetDutyCycle(PWM_sinewave_PI_DW.obj_d.PWMDriverObj.MW_PWM_HANDLE,
+                        rtb_MathFunction);
     if (rtmIsMajorTimeStep(PWM_sinewave_PI_M)) {
     }
 
@@ -464,6 +480,11 @@ void PWM_sinewave_PI_step(void)
     *lastU = PWM_sinewave_PI_B.Gain3;
 
     /* End of Update for Derivative: '<S4>/Derivative' */
+    if (rtmIsMajorTimeStep(PWM_sinewave_PI_M)) {
+      /* Update for Memory: '<S3>/Memory' */
+      PWM_sinewave_PI_DW.Memory_PreviousInput = PWM_sinewave_PI_B.Add;
+    }
+
     {                                  /* Sample time: [0.0s, 0.0s] */
       extmodeErrorCode_T errorCode = EXTMODE_SUCCESS;
       extmodeSimulationTime_T currentTime = (extmodeSimulationTime_T)
@@ -525,6 +546,7 @@ void PWM_sinewave_PI_derivatives(void)
   /* Derivatives for TransferFcn: '<Root>/Transfer Fcn1' */
   _rtXdot->TransferFcn1_CSTATE = PWM_sinewave_PI_P.TransferFcn1_A *
     PWM_sinewave_PI_X.TransferFcn1_CSTATE;
+  _rtXdot->TransferFcn1_CSTATE += PWM_sinewave_PI_B.DataTypeConversion1;
 
   /* Derivatives for TransferFcn: '<Root>/Transfer Fcn3' */
   _rtXdot->TransferFcn3_CSTATE = PWM_sinewave_PI_P.TransferFcn3_A *
@@ -577,10 +599,10 @@ void PWM_sinewave_PI_initialize(void)
   PWM_sinewave_PI_M->Timing.stepSize0 = 0.001;
 
   /* External mode info */
-  PWM_sinewave_PI_M->Sizes.checksums[0] = (3501625153U);
-  PWM_sinewave_PI_M->Sizes.checksums[1] = (1518309631U);
-  PWM_sinewave_PI_M->Sizes.checksums[2] = (1486172744U);
-  PWM_sinewave_PI_M->Sizes.checksums[3] = (1807906638U);
+  PWM_sinewave_PI_M->Sizes.checksums[0] = (1457042439U);
+  PWM_sinewave_PI_M->Sizes.checksums[1] = (1587924393U);
+  PWM_sinewave_PI_M->Sizes.checksums[2] = (2062246348U);
+  PWM_sinewave_PI_M->Sizes.checksums[3] = (342923262U);
 
   {
     static const sysRanDType rtAlwaysEnabled = SUBSYS_RAN_BC_ENABLE;
@@ -617,6 +639,10 @@ void PWM_sinewave_PI_initialize(void)
 
     /* InitializeConditions for TransferFcn: '<Root>/Transfer Fcn1' */
     PWM_sinewave_PI_X.TransferFcn1_CSTATE = 0.0;
+
+    /* InitializeConditions for Memory: '<S3>/Memory' */
+    PWM_sinewave_PI_DW.Memory_PreviousInput =
+      PWM_sinewave_PI_P.Memory_InitialCondition;
 
     /* InitializeConditions for TransferFcn: '<Root>/Transfer Fcn3' */
     PWM_sinewave_PI_X.TransferFcn3_CSTATE = 0.0;

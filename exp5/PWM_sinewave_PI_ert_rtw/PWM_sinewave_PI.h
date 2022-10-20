@@ -9,7 +9,7 @@
  *
  * Model version                  : 1.13
  * Simulink Coder version         : 9.7 (R2022a) 13-Nov-2021
- * C/C++ source code generated on : Sun Oct 16 16:48:40 2022
+ * C/C++ source code generated on : Wed Oct 19 01:08:31 2022
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM Cortex
@@ -171,8 +171,10 @@
 typedef struct {
   real_T DataTypeConversion1;          /* '<S5>/Data Type Conversion1' */
   real_T Gain3;                        /* '<S4>/Gain3' */
-  real_T Saturation;                   /* '<Root>/Saturation' */
   real_T Derivative;                   /* '<S4>/Derivative' */
+  real_T Memory;                       /* '<S3>/Memory' */
+  real_T Add;                          /* '<S3>/Add' */
+  real_T Saturation;                   /* '<Root>/Saturation' */
 } B_PWM_sinewave_PI_T;
 
 /* Block states (default storage) for system '<Root>' */
@@ -186,17 +188,22 @@ typedef struct {
   real_T LastUAtTimeA;                 /* '<S4>/Derivative' */
   real_T TimeStampB;                   /* '<S4>/Derivative' */
   real_T LastUAtTimeB;                 /* '<S4>/Derivative' */
+  real_T Memory_PreviousInput;         /* '<S3>/Memory' */
   struct {
-    void *LoggedData;
-  } Scope2_PWORK;                      /* '<Root>/Scope2' */
+    void *LoggedData[2];
+  } Scope3_PWORK;                      /* '<Root>/Scope3' */
 
   struct {
     void *LoggedData;
   } Scope1_PWORK;                      /* '<Root>/Scope1' */
 
   struct {
-    void *LoggedData[2];
-  } Scope3_PWORK;                      /* '<Root>/Scope3' */
+    void *LoggedData;
+  } Scope2_PWORK;                      /* '<Root>/Scope2' */
+
+  struct {
+    void *LoggedData;
+  } Scope_PWORK;                       /* '<Root>/Scope' */
 
   int8_T TriggeredSubsystem_SubsysRanBC;/* '<S4>/Triggered Subsystem' */
 } DW_PWM_sinewave_PI_T;
@@ -236,7 +243,8 @@ struct P_PWM_sinewave_PI_T_ {
                                  /* Mask Parameter: StairGenerator_RepeatPattern
                                   * Referenced by: '<S5>/Constant'
                                   */
-  real_T StairGenerator_TimeInput[7];/* Mask Parameter: StairGenerator_TimeInput
+  real_T StairGenerator_TimeInput[10];
+                                     /* Mask Parameter: StairGenerator_TimeInput
                                       * Referenced by: '<S5>/Time'
                                       */
   boolean_T DetectFallNonpositive_vinit;
@@ -258,7 +266,7 @@ struct P_PWM_sinewave_PI_T_ {
   real_T Delay_InitialCondition;       /* Expression: 0.0
                                         * Referenced by: '<S9>/Delay'
                                         */
-  real_T Output_Value[8];              /* Expression: [ 0, AmplitudeInput ]
+  real_T Output_Value[11];             /* Expression: [ 0, AmplitudeInput ]
                                         * Referenced by: '<S5>/Output'
                                         */
   real_T Constant2_Value;              /* Expression: TimeInput( end )
@@ -273,8 +281,23 @@ struct P_PWM_sinewave_PI_T_ {
   real_T Gain3_Gain;                   /* Expression: 360/1024
                                         * Referenced by: '<S4>/Gain3'
                                         */
-  real_T Gain2_Gain;                   /* Expression: 0.04149
-                                        * Referenced by: '<Root>/Gain2'
+  real_T TransferFcn1_A;               /* Computed Parameter: TransferFcn1_A
+                                        * Referenced by: '<Root>/Transfer Fcn1'
+                                        */
+  real_T TransferFcn1_C;               /* Computed Parameter: TransferFcn1_C
+                                        * Referenced by: '<Root>/Transfer Fcn1'
+                                        */
+  real_T Gain2_Gain;                   /* Expression: 0.00255
+                                        * Referenced by: '<S3>/Gain2'
+                                        */
+  real_T Gain3_Gain_j;                 /* Expression: 0.1314
+                                        * Referenced by: '<S3>/Gain3'
+                                        */
+  real_T Gain4_Gain;                   /* Expression: 0.001
+                                        * Referenced by: '<S3>/Gain4'
+                                        */
+  real_T Memory_InitialCondition;      /* Expression: 0
+                                        * Referenced by: '<S3>/Memory'
                                         */
   real_T Saturation_UpperSat;          /* Expression: 12
                                         * Referenced by: '<Root>/Saturation'
@@ -299,12 +322,6 @@ struct P_PWM_sinewave_PI_T_ {
                                         */
   real_T Step_YFinal;                  /* Expression: 0
                                         * Referenced by: '<S1>/Step'
-                                        */
-  real_T TransferFcn1_A;               /* Computed Parameter: TransferFcn1_A
-                                        * Referenced by: '<Root>/Transfer Fcn1'
-                                        */
-  real_T TransferFcn1_C;               /* Computed Parameter: TransferFcn1_C
-                                        * Referenced by: '<Root>/Transfer Fcn1'
                                         */
   real_T TransferFcn3_A;               /* Computed Parameter: TransferFcn3_A
                                         * Referenced by: '<Root>/Transfer Fcn3'
@@ -414,12 +431,7 @@ extern volatile boolean_T runModel;
 /*-
  * These blocks were eliminated from the model due to optimizations:
  *
- * Block '<S3>/Add' : Unused code path elimination
- * Block '<S3>/Gain2' : Unused code path elimination
- * Block '<S3>/Gain3' : Unused code path elimination
- * Block '<S3>/Gain4' : Unused code path elimination
- * Block '<S3>/Memory' : Unused code path elimination
- * Block '<S3>/Sum1' : Unused code path elimination
+ * Block '<Root>/Pulse Generator' : Unused code path elimination
  */
 
 /*-
